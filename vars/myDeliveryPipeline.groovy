@@ -38,7 +38,9 @@ def call(Map pipelineParams) {
             }
 
             stage('deploy production'){
-
+                steps {
+                    deploy(pipelineParams.productionServer, pipelineParams.serverPort)
+                }
             }
         }
         post {
