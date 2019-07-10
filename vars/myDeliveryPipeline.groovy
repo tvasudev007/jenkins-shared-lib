@@ -23,7 +23,7 @@ def call(Map pipelineParams) {
 
             stage('Test'){
                         steps{
-                            sh 'pwd'
+                            sh 'ls /var/jenkins_home/workspace/first-pipeline'
                             sh 'mvn test'
                         }
                         post {
