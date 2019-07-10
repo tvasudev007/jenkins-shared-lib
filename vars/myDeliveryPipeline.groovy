@@ -17,13 +17,19 @@ def call(Map pipelineParams) {
 
             stage('build') {
                 steps {
-                    sh 'mvn clean package -DskipTests=true'
+                    sh 'echo build'
                 }
             }
 
             stage('Test'){
                         steps{
-                            sh 'ls /var/jenkins_home/workspace/first-pipeline'             
+                                try {
+                                    // Any maven phase that that triggers the test phase can be used here.
+                                    sh 'mvn test -B'
+                                } catch(err) {
+                                    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+                                    throw err
+                                }            
                         }
 
                     }
