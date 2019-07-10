@@ -23,7 +23,7 @@ def call(Map pipelineParams) {
 
             stage('Test'){
                         steps{
-                            sh 'echo pwd'
+                            sh 'pwd'
                             sh 'mvn test'
                         }
                         post {
