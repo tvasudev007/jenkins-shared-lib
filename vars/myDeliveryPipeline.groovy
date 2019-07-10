@@ -23,14 +23,9 @@ def call(Map pipelineParams) {
 
             stage('Test'){
                         steps{
-                            sh 'ls /var/jenkins_home/workspace/first-pipeline'
-                            sh 'mvn test'
+                            sh 'ls /var/jenkins_home/workspace/first-pipeline'             
                         }
-                        post {
-                            always {
-                                junit 'target/surefire-reports/*.xml' 
-                            }
-                        }
+
                     }
             
             stage('deploy developmentServer'){
