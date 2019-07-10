@@ -21,22 +21,17 @@ def call(Map pipelineParams) {
                 }
             }
 
-            stage ('test') {
-                steps {
-                    parallel (
-                            "unit tests": { sh 'mvn test' },
-                            "integration tests": { sh 'mvn integration-test' }
-                    )
-                    
-                    post {
-
-                        always {
-                            junit 'target/surefire-reports/*.xml' 
+            stage('Test'){
+                        steps{
+                            sh 'mvn test'
+                        }
+                        post {
+                            always {
+                                junit 'target/surefire-reports/*.xml' 
+                            }
                         }
                     }
-                }
-            }
-
+            
             stage('deploy developmentServer'){
                 steps {
                     deploy(pipelineParams.developmentServer, pipelineParams.serverPort)
