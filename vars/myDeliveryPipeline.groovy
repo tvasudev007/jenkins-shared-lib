@@ -5,7 +5,7 @@ def call(Map pipelineParams) {
      agent {
         docker {
             image 'maven:3-alpine' 
-            args '-v /root/.m2:/root/.m2' 
+            args '-v $HOME/.m2:/root/.m2' 
              }
            }
         stages {
@@ -22,17 +22,15 @@ def call(Map pipelineParams) {
             }
 
             stage('Test'){
-                        steps{
-                                try {
-                                    // Any maven phase that that triggers the test phase can be used here.
-                                    sh 'mvn test -B'
-                                } catch(err) {
-                                    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
-                                    throw err
-                                }            
-                        }
-
+                steps{
+                    sh 'mvn test'
+                }
+                post {
+                    always {
+                        junit 'target/surefire-reports/*.xml' 
                     }
+                }
+            }
             
             stage('deploy developmentServer'){
                 steps {
