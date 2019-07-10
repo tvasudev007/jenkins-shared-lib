@@ -27,6 +27,13 @@ def call(Map pipelineParams) {
                             "unit tests": { sh 'mvn test' },
                             "integration tests": { sh 'mvn integration-test' }
                     )
+                    
+                    post {
+
+                        always {
+                            junit 'target/surefire-reports/*.xml' 
+                        }
+                    }
                 }
             }
 
